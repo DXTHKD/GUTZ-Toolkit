@@ -1,12 +1,14 @@
 import requests
 import os
 import subprocess
+import zipfile
+import shutil
 
 GITHUB_USER = "DXTHKD"
 GITHUB_REPO = "GUTZ-Toolkit"
 GITHUB_TOKEN = os.environ.get("GIIITHUB_TOKEN")  # Access the secret via environment variable
 
-CURRENT_VERSION = "1.0.1"
+CURRENT_VERSION = "1.0.0"
 
 def get_latest_release_version():
     url = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/releases/latest"
@@ -14,6 +16,9 @@ def get_latest_release_version():
     data = response.json()
     latest_version = data["tag_name"]
     return latest_version
+
+import zipfile
+import os
 
 def update_project():
     latest_version = get_latest_release_version()
@@ -23,6 +28,24 @@ def update_project():
         user_input = input("Do you want to update? (y/n): ").lower()
 
         if user_input == "y":
-            subprocess.run(["wget", f"https://github.com/{GITHUB_USER}/{GITHUB_REPO}/releases/latest/download/GUTZ-Toolkit.zip"])
-            subprocess.run(["unzip", "GUTZ-Toolkit.zip"])
-            subprocess.run(["rm", "GUTZ-Toolkit.zip"])
+            zip_url = f"https://github.com/{GITHUB_USER}/{GITHUB_REPO}/archive/refs/tags/{latest_version}.zip"
+            zip_filename = f"{latest_version}.zip"  # Corrected filename
+            
+            subprocess.run(["curl", "-LO", zip_url])
+            
+            with zipfile.ZipFile(zip_filename, "r") as zip_ref:
+                zip_ref.extractall(".")
+            
+            # Move contents of the extracted folder to the current directory
+            extracted_folder = f"{latest_version}.zip"
+            for item in os.listdir(extracted_folder):
+                item_path = os.path.join(extracted_folder, item)
+                if os.path.isfile(item_path):
+                    shutil.move(item_path, ".")
+            
+            # Remove the extracted folder
+            shutil.rmtree(extracted_folder)
+            
+            os.remove(zip_filename)
+            
+update_project()
