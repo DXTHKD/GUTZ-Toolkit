@@ -8,7 +8,7 @@ GITHUB_USER = "DXTHKD"
 GITHUB_REPO = "GUTZ-Toolkit"
 GITHUB_TOKEN = os.environ.get("GIIITHUB_TOKEN")  # Access the secret via environment variable
 
-CURRENT_VERSION = "1.0.3"
+CURRENT_VERSION = "1.0.4"
 
 def get_latest_release_version():
     url = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/releases/latest"
