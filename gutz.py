@@ -43,9 +43,14 @@ import json
 import random
 import string
 import logging
+import version
 ##############
 # </imports> #
 ##############
+
+###############
+# auto update ##########################
+###############
 
 ###########
 # <setup> #
