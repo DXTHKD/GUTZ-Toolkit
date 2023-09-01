@@ -54,7 +54,7 @@ codeVer = "v1.0.2"
 
 CURRENT_VERSION = "v1.0.2"
 
-GITHUB_USER = "DXTHKD"
+GITHUB_USER = "yungrvt"
 GITHUB_REPO = "GUTZ-Toolkit"
 GITHUB_TOKEN = os.environ.get("GIIITHUB_TOKEN")
 
